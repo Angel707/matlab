@@ -40,6 +40,10 @@ k4 = params(4);
 %  v     = [  y(t)  y'(t)  y''(t)  y'''(t) ] bis zur (n-1). Ableitung
 %        = [  v(1)  v(2)   v(3)    v(4)    ]
 % Die untere Zeile gibt an, wie man in Matlab auf die Elemente zugreift.
+y   = v(1);
+Dy  = v(2);
+%D2y = v(3);
+%D3y = v(4);
 
 %% [Schritt 2] Die DGL (n)-ter Ordnung umformen
 % Forme die DGL (n)-ter Ordnung so um, dass
@@ -56,7 +60,8 @@ k4 = params(4);
 % durch Elemente des v-Vektors zu ersetzen.
 %      DGL := y''''(t) = ( 9 cos(t) + 12 v(4) - 11 v(3) + 3 v(2)  ) / 8
 %
-DGL = ( -2 * k1 * v(2) - k2 * v(1) + k3 * cos(k4 * t) ) / 1;
+DGL = ( -2 * k1 * Dy - k2 * y + k3 * cos(k4 * t) ) / 1;
+D2y = DGL;
 
 %% [Schritt 3] v-Vektor einmal ableiten
 % v-Vektor abgeleitet ergibt Diff_v. Also:
@@ -69,7 +74,7 @@ DGL = ( -2 * k1 * v(2) - k2 * v(1) + k3 * cos(k4 * t) ) / 1;
 % y''''(t) = Diff_v(4) = ( 4 cos(t) + 12 y'''(t) - 11 y''(t) + 3 y'(t) ) / 4
 %                      = ( 4 cos(t) + 12 v(4)    - 11 v(3)   + 3 v(2)  ) / 4
 
-Diff_v = [ v(2) DGL ];
+Diff_v = [ Dy D2y ];
 
 Diff_v = Diff_v'; %  Ausgabe muss ein Spaltenvektor sein
 
