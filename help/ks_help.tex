@@ -1,0 +1,264 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% filename:	ks_help.tex
+%% template:	Mon, 07 May 2012 13:01:14 +0200
+%% author:	Hermann Lorenz
+%% date:	19. Feb 2013 14:32
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[%
+	% für Package typearea
+	paper=a4,% Druckbereich A4
+	pagesize=auto	% Druckbereich als Papiergröße über-
+			% nehmen
+	]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Lokalisierung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}	% Umlaute direkt eingeben
+\usepackage[T1]{fontenc}	% Wörter mit Umlaute umbre-
+				% chen
+\usepackage[ngerman]{babel}	% deutsche Bezeichner
+\usepackage[babel,german=quotes]{csquotes}	% \enquote{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Tabellen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tabularx}
+\usepackage{booktabs}	% \toprule\midrule\bottomrule
+			% \addlinespace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bilder %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}	% \includegraphics{bild.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Mathematische Symbole %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Sonstige Symbole %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage[italian,	% \unita, conflict with babel
+	squaren		% \squaren, conflict with amssymb
+	]{SIunits}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% pdf-links %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[ngerman]{varioref}	% \vpageref{}
+\usepackage[ngerman,	% deutsche Bezeichnungen
+	pdftex		% in Links Umbrüche erlauben
+	]{hyperref}
+\hypersetup{
+	pdfauthor={Hermann Lorenz},
+	pdftitle={NOCH KEIN TITEL}
+	}	% \autoref{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% eigene Macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\vautoref}[1]{\autoref{#1}\vpageref{#1}}
+
+\begin{document}
+\section{Laplace-Transformation}
+\minisec{Idee}
+	Überführung einer Gleichung in den Laplace-Raum, in diesem
+	sind die einzelnen Operationen einfacher durchzuführen.
+	Wenn das Ergebnis gefunden ist, überführen in den normalen Raum.
+
+	\(L\left[f(x)\right](s)\) \dots Laplacetransformation auf die
+	Funktion \(f(x)\) anwenden und  Variable \(s\) einführen.
+\minisec{Beispiel}
+\begin{align*}
+	a \dot y(t) + a_0 y(t) & = b(t)\\
+	L\left[a_1 \dot y(t) + a_0 y(t)\right]
+		& = L\left[b(t)\right]\\
+	L\left[a_1 \dot y(t) + a_0 y(t)\right](s)
+		& = L\left[b(t)\right](s)
+		& L\left[a+b\right] = L\left[a\right] + L\left[b\right]\\
+	L\left[a_1 \dot y(t)\right](s) + L\left[a_0 y(t)\right](s)
+		& = L\left[b(t)\right](s)
+		& L\left[c \cdot f(x)\right] = c \cdot L\left[f(x)\right]\\
+	a_1  \cdot L\left[\dot y(t)\right](s) + a_0  \cdot L\left[y(t)\right](s)
+		& = L\left[b(t)\right](s)
+		& L\left[ f'(t) \right](s) = sF(s) - f(0)\\
+	a_1 \left[s Y(s) - y(0)\right] + a_0 y(s)
+		& = L\left[b(t)\right](s)
+\end{align*}
+
+\minisec{Praktikum 9, Aufgabe 1}
+\begin{align*}
+	4 \cdot y^{(4)}(t) - 12 y'''(t) + 11 y''(t) - 3 y'(t)
+		& = 4 cos(t)\\
+	L\left[4 \cdot y^{(4)}(t) - 12 y'''(t) + 11 y''(t) - 3 y'(t)\right](s)
+		& = L\left[4 cos(t)\right](s)\\
+	4 \cdot L\left[y^{(4)}(t)\right](s)
+		- 12 L\left[y'''(t)\right](s)
+		+ 11 L\left[y''(t)\right](s)
+		- 3 L\left[y'(t)\right](s)
+		& = 4 L\left[\cos(t)\right](s)
+\end{align*}
+Formeln nach \url{http://de.wikipedia.org/wiki/Laplacetransformation#Allgemeine_Eigenschaften} transformieren:
+\begin{align*}
+	f'(t)	& = s F(s) - f(0)\\
+	f''(t)	& = s^2 F(s) - sf(0) - f'(0)\\
+	f^{(n)}t)
+		& = s^n F(s) - \sum\limits_{k=0}^{n-1} f^{(k)}(0) s^{n-k-1}\\
+	f'''(t)	& = s^3 F(s) - s^2 f(0) - sf'(0) - f''(0)\\
+	f^{(4)}(t)	& = s^4 F(s) -s^3 f(0) - s^2 f'(0) - sf''(0) - f'''(0)\\
+	%\cos(at) \cdot f(t)	& = \frac{1}{2} \cdot (F(s - ia) + F(s + ia))
+	\cos(at) & = \frac{s}{s^2+a^2}
+\end{align*}
+In obige Formel einsetzen:
+\begin{align*}
+	4 \cdot \underbrace{\left(s^4 F(s) -s^3 f(0) - s^2 f'(0) - sf''(0) - f'''(0)\right)}_{L\left[y^{(4)}(t)\right](s)}\\
+		- 12 \underbrace{\left(s^3 F(s) - s^2 f(0) - sf'(0) - f''(0)\right)}_{L\left[y'''(t)\right](s)}\\
+		+ 11 \underbrace{\left(s^2 F(s) - sf(0) - f'(0)\right)}_{L\left[y''(t)\right](s)}
+		- 3 \underbrace{\left(s F(s) - f(0)\right)}_{L\left[y'(t)\right](s)}
+		& = 4 \underbrace{\left(\frac{s}{s^2 + 1}\right)}_{L\left[\cos(t)\right](s)}
+\end{align*}
+	
+	\[F(s) = L\left[y(t)\right](s)\]
+
+	Automatisch in Matlab mit \lstinline=laplace(cos(t), t, s)= transformieren.
+
+	\begin{lstlisting}[gobble=16]
+		syms f(t)
+		Df = diff(f(t), t);
+		SS = laplace(Df, t, s);
+	\end{lstlisting}
+
+	Jetzt \(X(s)\), damit meint er hier \(F(s)\) bzw. \(Y(s)\), ausklammern:
+\begin{align*}
+	4 \cdot \left(s^4 F(s) -s^3 f(0) - s^2 f'(0) - sf''(0) - f'''(0)\right)\\
+		- 12 \left(s^3 F(s) - s^2 f(0) - sf'(0) - f''(0)\right)\\
+		+ 11 \left(s^2 F(s) - sf(0) - f'(0)\right)\\
+		- 3 \left(s F(s) - f(0)\right)
+		& = 4 \left(\frac{s}{s^2 + 1}\right)\\
+	4 s^4 F(s) - 4 s^3 f(0) - 4 s^2 f'(0) - 4 sf''(0) - 4 f'''(0)\\
+		- 12 s^3 F(s) + 12 s^2 f(0) + 12 sf'(0) + 12 f''(0)\\
+		+ 11 s^2 F(s) - 11 s f(0) - 11 f'(0)\\
+		- 3 s F(s) + 3 f(0)
+		& = 4 \frac{s}{s^2 + 1}\\
+	F(s) \left(4 s^4 - 12 s^3 + 11 s^2 - 3 s\right)
+		+ f(0) \left(- 4 s^3 + 12 s^2 - 11 s + 3\right)\\
+		+ f'(0) \left(- 4 s^2 + 12 s - 11\right)
+		+ f''(0) \left(12 - 4s\right)
+		- 4 f'''(0)
+		& = 4 \frac{s}{s^2 + 1}\\
+\end{align*}
+
+Zwischendurch die Anfangsbedingungen
+\begin{align*}
+	y(0) = s(0) &= 5\\
+	y'(0) = s'(0) &= 4\\
+	y''(0) = s''(0) &= 3\\
+	y'''(0) = s'''(0) &= 2
+\end{align*}
+einsetzen.
+\begin{align*}
+	F(s) \left(4 s^4 - 12 s^3 + 11 s^2 - 3 s\right)
+		+ 5 \left(- 4 s^3 + 12 s^2 - 11 s + 3\right)\\
+		+ 4 \left(- 4 s^2 + 12 s - 11\right)
+		+ 3 \left(12 - 4s\right)
+		- 4 \cdot 2
+		& = 4 \frac{s}{s^2 + 1}\\
+	F(s) \left(4 s^4 - 12 s^3 + 11 s^2 - 3 s\right)
+		- 20 s^3 + 60 s^2 - 55 s + 15\\
+		- 16 s^2 + 48 s - 44
+		+ 36 - 12s
+		- 8
+		& = 4 \frac{s}{s^2 + 1}\\
+	F(s) \left(4 s^4 - 12 s^3 + 11 s^2 - 3 s\right)
+		- 20 s^3
+		+ 44 s^2
+		- 19 s
+		- 1
+		& = 4 \frac{s}{s^2 + 1}\\
+	F(s)
+		& = \frac{4 \frac{s}{s^2 + 1}
+		+ 20 s^3
+		- 44 s^2
+		+ 19 s
+		+ 1
+		}{
+			4 s^4 - 12 s^3 + 11 s^2 - 3 s
+		}
+		\\
+\end{align*}
+
+\appendix
+\section{MATLAB}
+	\lstinline=clc=
+	Anzeige löschen
+
+	\lstinline=clear all=
+	alle Variablen löschen
+
+	\lstinline=clear x=
+	Variable \(x\) löschen
+
+	\lstinline=close all=
+	alle Fenster (z.\,B. Plots) schließen
+
+	\lstinline=syms f(t) s=
+	Symbol ohne Wert anlegen
+
+	\lstinline=laplace(cos(t), t, s)=
+	Laplacetransformation durchführen
+
+	\lstinline=ilaplace(Formel, s, t)=
+	Laplace\emph{rück}transformation durchführen
+
+	\lstinline=diff(cos(t), t)=
+	Ableitung von \(\cos(t)\) nach \(t\)
+
+
+
+
+\section{Simulink}
+	Mit \emph{Integratoren} die verschiedenen Ableitungen darstellen.
+	Die Gleichung nach \(f^{(n)}(t) = \dots\) umformen und aufbauen.
+
+	Das Simulationsprogramm kann mit \lstinline=sim('simname')= ausgeführt
+	werden.
+
+\subsection{Continuous}
+	\begin{description}
+	\item[Integrator]
+		Ableitung erstellen \emph{mit Anfangsbedingungen} in
+		den Eigenschaften
+	\end{description}
+
+\subsection{Math Operations}
+	\begin{description}
+	\item[Gain]
+		mit einem festen Wert multiplizieren
+	\item[Trigonometric Function]
+		für \(\sin\)- oder \(\cos\)-Funktionen
+	\end{description}
+
+\subsection{Sinks}
+	\begin{description}
+	\item[Display]
+		konkreten Wert ausgeben
+	\item[Scope]
+		Diagramm ausgeben
+	\end{description}
+
+\subsection{Sources}
+	\begin{description}
+	\item[Constant]
+		Konstanter Wert, z.\,B. für Addition oder Multiplikation
+	\item[Clock]
+		entspricht der Eingangsvariablen \(t\)
+	\end{description}
+\end{document}
