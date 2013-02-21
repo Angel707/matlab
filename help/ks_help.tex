@@ -197,29 +197,31 @@ einsetzen.
 
 \appendix
 \section{MATLAB}
-	\lstinline=clc=
+	\begin{labeling}{\ttfamily ilaplace(Formel, s, t)}
+	\item[\ttfamily clc]
 	Anzeige löschen
 
-	\lstinline=clear all=
+	\item[\ttfamily clear all]
 	alle Variablen löschen
 
-	\lstinline=clear x=
+	\item[\ttfamily clear x]
 	Variable \(x\) löschen
 
-	\lstinline=close all=
+	\item[\ttfamily close all]
 	alle Fenster (z.\,B. Plots) schließen
 
-	\lstinline=syms f(t) s=
+	\item[\ttfamily syms f(t) s]
 	Symbol ohne Wert anlegen
 
-	\lstinline=laplace(cos(t), t, s)=
+	\item[\ttfamily laplace(cos(t), t, s)]
 	Laplacetransformation durchführen
 
-	\lstinline=ilaplace(Formel, s, t)=
+	\item[\ttfamily ilaplace(Formel, s, t)]
 	Laplace\emph{rück}transformation durchführen
 
-	\lstinline=diff(cos(t), t)=
+	\item[\ttfamily diff(cos(t), t)]
 	Ableitung von \(\cos(t)\) nach \(t\)
+	\end{labeling}
 
 
 
